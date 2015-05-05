@@ -15,6 +15,11 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+##pointer to templates
+from os.path import join
+TEMPLATE_DIRS = (
+	join(BASE_DIR, 'templates').replace('\\','/'),
+)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
