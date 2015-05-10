@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <head>
     <title>Engineering World Health - VSM</title>
-    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-    <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
-    <script src="{{ STATIC_URL }}js/npm.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}assets/css/docs.min.css">
-    <script src="{{ STATIC_URL }}assets/js/docs.min.js"></script>
-    <script src="{{ STATIC_URL }}assets/js/ie10-viewport-bug-workaround.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}dist/css/bootstrap.min.css">
-    <script src="{{ STATIC_URL }}dist/js/bootstrap.min.js"></script>
-    <script src="{{ STATIC_URL }}javascript/(index)"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/npm.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/docs.min.css' %}">
+    <script src="{% static 'assets/js/docs.min.js' %}"></script>
+    <script src="{% static 'assets/js/ie10-viewport-bug-workaround.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'dist/css/bootstrap.min.css' %}">
+    <script src="{% static 'dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'javascript/(index)' %}"></script>
 
   </head>
   <body>
@@ -119,6 +120,7 @@
                         <h4 class="modal-title" id="myModalLabel">View All Patients</h4>
                       </div>
                       <div class="modal-body">
+                      {{patient_list | safe}}
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -166,7 +168,12 @@
                         <h4 class="modal-title" id="myModalLabel">Add New Patient</h4>
                       </div>
                       <div class="modal-body">
-                        <form>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ add_patient.as_p }}
+                            <input type="submit" value="Submit" />
+                        </form>
+<!--                         <form>
                           <div class="form-group">
                             <label for="PatientID">Patient ID</label>
                             <input type="PatientID" class="form-control" id="PatientID" placeholder="Enter Patient ">
@@ -180,7 +187,7 @@
                             <input type="Condition" class="form-control" id="Condition" placeholder="Enter Condition">
                           </div>
                           <button type="submit" class="btn btn-default">Submit</button>
-                        </form>
+                        </form> -->
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -201,13 +208,10 @@
                         <h4 class="modal-title" id="myModalLabel">Delete Patient</h4>
                       </div>
                       <div class="modal-body">
-                        <form>
-                          <div class="form-group">
-                            <label for="PatientID">Enter patient ID of the patient you wish to delete:</label>
-                            <input type="PatientID" class="form-control" id="PatientID" placeholder="Enter Patient ">
-                          </div>
-                          
-                          <button type="submit" class="btn btn-default">Submit</button>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ delete_patient.as_p }}
+                            <input type="submit" value="Submit" />
                         </form>
                       </div>
                       <div class="modal-footer">
@@ -229,20 +233,10 @@
                         <h4 class="modal-title" id="myModalLabel">Edit Patient</h4>
                       </div>
                       <div class="modal-body">
-                        <form>
-                          <div class="form-group">
-                            <label for="PatientID">Patient ID</label>
-                            <input type="PatientID" class="form-control" id="PatientID" placeholder="Enter Patient ">
-                          </div>
-                          <div class="form-group">
-                            <label for="Location">Location</label>
-                            <input type="Location" class="form-control" id="Location" placeholder="Enter Location">
-                          </div>
-                          <div class="form-group">
-                            <label for="Condition">Condition</label>
-                            <input type="Condition" class="form-control" id="Condition" placeholder="Enter Condition">
-                          </div>
-                          <button type="submit" class="btn btn-default">Submit</button>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ edit_patient.as_p }}
+                            <input type="submit" value="Submit" />
                         </form>
                       </div>
                       <div class="modal-footer">
@@ -269,7 +263,25 @@
             </thead>
             <tbody>
               <tr>
-                <td><a href="#" role="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#">View All Nurses</a></td>
+                 <td><a href="#" role="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#viewAllNurses">View All Nurses</a></td>
+                <div class="modal fade" id="viewAllNurses" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">View All Nurses</h4>
+                      </div>
+                      <div class="modal-body">
+                      {{nurse_list | safe}}
+                      
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>   
               </tr>
               <tr>
                 <td><a href="#" role="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#viewOneNurse">View One Nurse</a></td>
@@ -308,16 +320,10 @@
                         <h4 class="modal-title" id="myModalLabel">Add Nurse</h4>
                       </div>
                       <div class="modal-body">
-                        <form>
-                          <div class="form-group">
-                            <label for="Name">Name</label>
-                            <input type="Name" class="form-control" id="Name" placeholder="Enter Name">
-                          </div>
-                          <div class="form-group">
-                            <label for="Name">Phone Number</label>
-                            <input type="Name" class="form-control" id="Name" placeholder="Enter Number">
-                          </div>
-                          <button type="submit" class="btn btn-default">Submit</button>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ add_nurse.as_p }}
+                            <input type="submit" value="Submit" />
                         </form>
                       </div>
                       <div class="modal-footer">
@@ -338,13 +344,10 @@
                         <h4 class="modal-title" id="myModalLabel">Delete Nurse</h4>
                       </div>
                       <div class="modal-body">
-                        <form>
-                          <div class="form-group">
-                            <label for="Name">Name</label>
-                            <input type="Name" class="form-control" id="Name" placeholder="Enter Name ">
-                          </div>
-                          
-                          <button type="submit" class="btn btn-default">Submit</button>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ delete_nurse.as_p }}
+                            <input type="submit" value="Submit" />
                         </form>
                       </div>
                       <div class="modal-footer">
@@ -365,16 +368,10 @@
                         <h4 class="modal-title" id="myModalLabel">Edit Nurse</h4>
                       </div>
                       <div class="modal-body">
-                        <form>
-                          <div class="form-group">
-                            <label for="Name">Name</label>
-                            <input type="Name" class="form-control" id="Name" placeholder="Enter Name">
-                          </div>
-                          <div class="form-group">
-                            <label for="Name">Phone Number</label>
-                            <input type="Name" class="form-control" id="Name" placeholder="Enter Number">
-                          </div>
-                          <button type="submit" class="btn btn-default">Submit</button>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ edit_nurse.as_p }}
+                            <input type="submit" value="Submit" />
                         </form>
                       </div>
                       <div class="modal-footer">
