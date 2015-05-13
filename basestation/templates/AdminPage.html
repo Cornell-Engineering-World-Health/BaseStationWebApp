@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 <head>
-    <title>Engineering World Health - VSM</title>
+    <title>EWH - VSM</title>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/npm.js' %}"></script>
@@ -12,380 +12,256 @@
     <script src="{% static 'dist/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'javascript/(index)' %}"></script>
 
+
   </head>
   <body>
-  <style>
-    body {
-      background-color: lightcyan;
-    }
-    h1 {
-      text-transform: uppercase;
-      color: royalblue;
-      font-family: futura;
-    }
-    h2{
-      font-family: futura;
-      color: royalblue;
-    }
-    h3{
-      font-family: futura;
-      color: royalblue;
-      text-align: center;
-    }
-
-    .table-hover{
-      width:100%;     
-      border-collapse: collapse;
-    }
-    .table-hover th{
-      font-family: futura;
-      color: royalblue;
-      border:#4e95f4 1px solid;
-    }
-    .table-hover td{
-      font-family: futura; 
-      color: royalblue;
-      text-align: center;
-      padding:10px; border:#4e95f4 1px solid;
-    }
-  /* Define the default color for all the table rows */
-    .table-hover tr{
-      background: lightblue;
-    }
-  /* Define the hover highlight color for the table row */
-    .table-hover tr:hover {
-          background-color: azure;
-    }
-    .btn {
-    padding: 14px 24px;
-    border: 0 none;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: blue
-  
-    }
-     
-    .btn:focus, .btn:active:focus, .btn.active:focus {
-        outline: 0 none;
-    }
-     
-    .btn-primary {
-        background: #0099cc;
-        color: #ffffff;
-    }
-     
-    .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
-        background:  #33a6cc;
-    }
-     
-    .btn-primary:active, .btn-primary.active {
-        background: #007299;
-        box-shadow: none;
-    }
-    .btn.sharp {
-        border-radius:0;
-    }
-    $(document).off('.data-api')
-    $(document).off('.alert.data-api')
-
-  </style>
-
-    <div class="page-header">
-        <center><h1>Engineering World Health</h1></center>
-        <center><h2>Admin Panel</h2></center>
-      </div>
-    <div class="row-md-3">
-      <div class="page-header">
-        <h3>View All Active Patients and Nurses</h3>
-      </div>
-    <div class="row-md-3">
-    
-    <div class="row-md-3">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th><center><h2>Patients</h2></center></th>
-                
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                 <td><a href="#" role="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#viewAllModal">View All Patients</a></td>
-                <div class="modal fade" id="viewAllModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">View All Patients</h4>
-                      </div>
-                      <div class="modal-body">
-                      {{patient_list | safe}}
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>   
-              </tr>
-              <tr>
-                    <td><a href="#" role="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#viewOneModal">View One Patient</a></td>
-                <div class="modal fade" id="viewOneModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">View One Patient</h4>
-                      </div>
-                      <div class="modal-body">
-                        <form>
-                          <div class="form-group">
-                            <label for="PatientID">Enter patient ID of the patient you wish to view:</label>
-                            <input type="PatientID" class="form-control" id="PatientID" placeholder="Enter Patient ">
-                          </div>
-                          
-                          <button type="submit" class="btn btn-default">Submit</button>
-                        </form>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-              </tr>
-              <tr>
-                <td><a href="#" role="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#myModal">Add Patient</a></td>
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Add New Patient</h4>
-                      </div>
-                      <div class="modal-body">
-                        <form method="post">
-                            {% csrf_token %}
-                            {{ add_patient.as_p }}
-                            <input type="submit" value="Submit" />
-                        </form>
-<!--                         <form>
-                          <div class="form-group">
-                            <label for="PatientID">Patient ID</label>
-                            <input type="PatientID" class="form-control" id="PatientID" placeholder="Enter Patient ">
-                          </div>
-                          <div class="form-group">
-                            <label for="Location">Location</label>
-                            <input type="Location" class="form-control" id="Location" placeholder="Enter Location">
-                          </div>
-                          <div class="form-group">
-                            <label for="Condition">Condition</label>
-                            <input type="Condition" class="form-control" id="Condition" placeholder="Enter Condition">
-                          </div>
-                          <button type="submit" class="btn btn-default">Submit</button>
-                        </form> -->
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </tr>
-              <tr>
-                    <td><a href="#" role="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#deleteModal">Delete Patient</a></td>
-                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Delete Patient</h4>
-                      </div>
-                      <div class="modal-body">
-                        <form method="post">
-                            {% csrf_token %}
-                            {{ delete_patient.as_p }}
-                            <input type="submit" value="Submit" />
-                        </form>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-              </tr>
-              <tr>
-                <td><a href="#" role="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#editModal">Edit Patient</a></td>
-                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Edit Patient</h4>
-                      </div>
-                      <div class="modal-body">
-                        <form method="post">
-                            {% csrf_token %}
-                            {{ edit_patient.as_p }}
-                            <input type="submit" value="Submit" />
-                        </form>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </tr>
-              <tr>
-              </tr>
-            </tbody>
-          </table>
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="position: relative;">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Engineering World Heatlh - Vitals Sign Monitor</a>
         </div>
-    <p> </p>
-    <div class="row-md-3">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th><center><h2>Nurses</h2><center></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                 <td><a href="#" role="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#viewAllNurses">View All Nurses</a></td>
-                <div class="modal fade" id="viewAllNurses" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">View All Nurses</h4>
-                      </div>
-                      <div class="modal-body">
-                      {{nurse_list | safe}}
-                      
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>   
-              </tr>
-              <tr>
-                <td><a href="#" role="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#viewOneNurse">View One Nurse</a></td>
-                <div class="modal fade" id="viewOneNurse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">View One Nurse</h4>
-                      </div>
-                      <div class="modal-body">
-                        <form>
-                          <div class="form-group">
-                            <label for="Name">Name</label>
-                            <input type="Name" class="form-control" id="Name" placeholder="Enter Name ">
-                          </div>
-                          
-                          <button type="submit" class="btn btn-default">Submit</button>
-                        </form>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div>
-                  </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6"><!-- Nurse Col  -->
+
+            <div class="row"><!-- Nav  -->
+              <nav class="navbar navbar-default" role="navigation">
+            
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#">Nurses</a>
                 </div>
-              </tr>
-              <tr>
-                <td><a href="#" role="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#addNurse">Add Nurse</a></td>
-                <div class="modal fade" id="addNurse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Add Nurse</h4>
-                      </div>
-                      <div class="modal-body">
-                        <form method="post">
-                            {% csrf_token %}
-                            {{ add_nurse.as_p }}
-                            <input type="submit" value="Submit" />
-                        </form>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div>
-                  </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manage <b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#" role="button" data-toggle="modal" data-target="#addNurse">Add</a></li>
+                        <li><a href="#" role="button" data-toggle="modal" data-target="#editNurse">Edit</a></li>
+                        <li><a href="#" role="button" data-toggle="modal" data-target="#deleteNurse">Delete</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div><!-- /.navbar-collapse -->
+              </nav>
+            </div><!-- Nav  -->
+
+            {{nurse_list | safe}}
+
+        </div><!-- Nurse Col  -->
+
+
+
+        <div class="col-md-6"><!-- Patient Col  -->
+
+            <div class="row"><!-- Nav  -->
+              <nav class="navbar navbar-default" role="navigation">
+            
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#">Patients</a>
                 </div>
-              </tr>
-              <tr>
-                <td><a href="#" role="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#deleteNurse">Delete Nurse</a></td>
-                <div class="modal fade" id="deleteNurse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Delete Nurse</h4>
-                      </div>
-                      <div class="modal-body">
-                        <form method="post">
-                            {% csrf_token %}
-                            {{ delete_nurse.as_p }}
-                            <input type="submit" value="Submit" />
-                        </form>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </tr>
-              <tr>
-                <td><a href="#" role="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#editNurse">Edit Nurse</a></td>
-                <div class="modal fade" id="editNurse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Edit Nurse</h4>
-                      </div>
-                      <div class="modal-body">
-                        <form method="post">
-                            {% csrf_token %}
-                            {{ edit_nurse.as_p }}
-                            <input type="submit" value="Submit" />
-                        </form>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </tr>
-              <tr>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manage <b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#" role="button" data-toggle="modal" data-target="#addPatient">Add</a></li>
+                        <li><a href="#" role="button" data-toggle="modal" data-target="#editPatient">Edit</a></li>
+                        <li><a href="#" role="button" data-toggle="modal" data-target="#deletePatient">Delete</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div><!-- /.navbar-collapse -->
+              </nav>
+            </div><!-- Nav  -->
+
+            {{patient_list | safe}}
+
+        </div><!-- Nurse Col  -->
+
+
+      </div>
+    </div><!-- /.container -->
   </body>
 </html>
+
+
+<!-- Add Nurse Modal -->
+<div class="modal fade" id="addNurse" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Nurse</h4>
+      </div>
+      <div class="modal-body">
+
+      <form method="post">
+          {% csrf_token %}
+          {{ add_nurse.as_p }}
+          <!-- <input type="submit" name='add_nurse' value="Submit" /> -->
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" name='add_nurse' value="Add">
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Edit Nurse Modal -->
+<div class="modal fade" id="editNurse" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Nurse</h4>
+      </div>
+      <div class="modal-body">
+
+      <form method="post">
+          {% csrf_token %}
+          {{ edit_nurse.as_p }}
+          <!-- <input type="submit" name='add_nurse' value="Submit" /> -->
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" name='edit_nurse' value="Edit">
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Delete Nurse Modal -->
+<div class="modal fade" id="deleteNurse" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Delete Nurse</h4>
+      </div>
+      <div class="modal-body">
+
+      <form method="post">
+          {% csrf_token %}
+          {{ delete_nurse.as_p }}
+          <!-- <input type="submit" name='add_nurse' value="Submit" /> -->
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" name='delete_nurse' value="Delete">
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Patient Modal -->
+<div class="modal fade" id="addPatient" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Patient</h4>
+      </div>
+      <div class="modal-body">
+
+      <form method="post">
+          {% csrf_token %}
+          {{ add_patient.as_p }}
+          <!-- <input type="submit" name='add_patient' value="Submit" /> -->
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" name='add_patient' value="Add">
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Edit Nurse Modal -->
+<div class="modal fade" id="editPatient" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Patient</h4>
+      </div>
+      <div class="modal-body">
+
+      <form method="post">
+          {% csrf_token %}
+          {{ edit_patient.as_p }}
+          <!-- <input type="submit" name='add_patient' value="Submit" /> -->
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" name='edit_patient' value="Edit">
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Delete Nurse Modal -->
+<div class="modal fade" id="deletePatient" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Delete Patient</h4>
+      </div>
+      <div class="modal-body">
+
+      <form method="post">
+          {% csrf_token %}
+          {{ delete_patient.as_p }}
+          <!-- <input type="submit" name='add_patient' value="Submit" /> -->
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" name='delete_patient' value="Delete">
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
